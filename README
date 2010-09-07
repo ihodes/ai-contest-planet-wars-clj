@@ -1,8 +1,0 @@
-To start a bot: 
-
-java -cp lib/clojure-1.2.0.jar:lib/clojure-contrib-1.2.0.jar:src/ clojure.main src/pw/bot.clj
-
-To play a game:
-java -jar tools/PlayGame.jar maps/map7.txt 1000 1000 log.txt "java -jar example_bots/RandomBot.jar" "java -cp lib/clojure-1.2.0.jar:lib/clojure-contrib-1.2.0.jar:src/ clojure.main src/pw/bot.clj" | java -jar tools/ShowGame.jar
-
-Problem is, takes too long for clojure to start up, so the bot times out.
