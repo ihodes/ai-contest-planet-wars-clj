@@ -1,6 +1,7 @@
 (ns pw.bot
   (:use [clojure.string :only (trim split-lines)]
-        pw.planetwars))
+        pw.planetwars)
+  (:gen-class :main true :prefix "-"))
 
 ;; Helpers for your bot
 (defn my-strongest-planet
@@ -40,20 +41,22 @@
   (finish-turn)) ;; say go
 
 ;; Main IO loop
-(defn -main []
-  (loop [line (read-line) pw ""]
-    (cond (go? line) (if-not (empty? pw)
-                       (do
-                         (take-turn do-turn pw)
-                         (recur (read-line) ""))
-                       (do
-                         (finish-turn)
-                         (recur (read-line) "")))
-          :else (recur (read-line)
-                       (apply str (concat pw line "\n"))))))
+(defn -main [& args]
+  (try (loop [line (read-line) pw ""]
+         (cond (go? line) (if-not (empty? pw)
+                            (do
+                              (take-turn do-turn pw)
+                              (recur (read-line) ""))
+                            (do
+                              (finish-turn)
+                              (recur (read-line) "")))
+               :else (recur (read-line)
+                            (apply str (concat pw line "\n")))))
+       (catch Exception e
+         (println "Egregious error, man. Egreege."))))
 
 ;; Run the program
-(try (-main)
-     (catch Exception e
-       (println "And we're done.")))
+;; (try (-main)
+;;      (catch Exception e
+;;        (println "And we're done.")))
 
