@@ -147,7 +147,7 @@
   "Returns a fleet struct from 's."
   [s]
   (apply struct fleet
-         (map #(Integer. %) (drop 1 (split s #" ")))))
+         (map to_i (drop 1 (split s #" ")))))
 
 (defn- clean [s] (trim (get (split s #"#") 0)))
 (defn- p-line? [s] (= \P (first s)))
