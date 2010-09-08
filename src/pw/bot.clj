@@ -50,6 +50,7 @@
 
 ;; Main IO loop
 (defn -main [& args]
+  ; (init-logging)
   (try
         (loop [message []]
             (let [line (read-line)]
