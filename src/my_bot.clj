@@ -1,7 +1,7 @@
 (ns my_bot
-  (:use planetwars)
-  (:import (org.slf4j Logger LoggerFactory))
-  (:gen-class :main true :prefix "-"))
+    (:use planetwars)
+    (:import (org.slf4j Logger LoggerFactory))
+    (:gen-class :main true :prefix "-"))
 
 (def log-factory nil)
 
@@ -37,21 +37,24 @@
 
 ;; Your Robot
 (defn do-turn [game]
-  (cond
-   ;; Do nothing if a fleet is in flight
-   (pos? (count (my-fleets game))) nil
-   ;; Else send half your ships from your strongest planets
-   ;; to your enemy's weakest planet
-   :else (let [source (my-strongest-planet-id game) 
-               dest (weakest-enemy-planet-id game)]
-           (when-not (or (nil? source) (nil? dest))
-             (issue-order source dest
-                          (ihalf ((get-planet game source) :num-ships)))))))
+    (cond
+    ;; Handle empty input
+        (nil? game) nil
+    ;; Do nothing if a fleet is in flight
+        (pos? (count (my-fleets game))) nil
+    ;; Else send half your ships from your strongest planets
+    ;; to your enemy's weakest planet
+        :else
+            (let [  source (my-strongest-planet game) 
+                    dest (weakest-enemy-planet game)]
+                (when-not (or (nil? source) (nil? dest))
+                    (issue-order source dest
+                        (ihalf ((get-planet game source) :num-ships)))))))
 
 ;; Main IO loop
 (defn -main [& args]
-  ; (init-logging)
-  (try
+    ; (init-logging)
+    (try
         (loop [message []]
             (let [line (read-line)]
                 (cond
@@ -59,10 +62,9 @@
                     (= line "go")
                         (do
                             (do-turn (parse-game-state message))
-                               (finish-turn)
+                            (finish-turn)
                             (recur []))
                     :else (recur (conj message line)))))
-    (catch Exception e
+        (catch Exception e
             (java.lang.System/exit 1)))
-  (java.lang.System/exit 0))
-
+    (java.lang.System/exit 0))
