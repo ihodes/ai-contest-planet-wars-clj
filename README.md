@@ -13,7 +13,9 @@ And you should be good to go.
 
 ## Notes
 
-Note that the start-up time is 3000ms instead of 1000; this is because it takes about that long for the JVM to get going with Clojure. 
+Note that the start-up time is 3000ms instead of 1000; this is because
+it takes about that long for the JVM to get going with Clojure. If the
+bot times out, there's a chance you'll need to increase the time. 
 
 Hopefully there will be an update to the game engine that doesn't penalize slow start-up times (e.g. both bots send "OKAY" when they're all ready, *then* recieve the map/game-state from the game engine.)
 
