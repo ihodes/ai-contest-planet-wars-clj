@@ -11,6 +11,10 @@
 (defstruct planet
   :planet-id :x :y :owner :num-ships :growth-rate)
 
+;; Game
+(defstruct #^{:doc "This is the overall state of the game."}
+  planet-wars-game :planets :fleets)
+
 (defn add-ships
   "Returns 'planet with 'num-ships added to it."
   [planet num-ships]
@@ -33,10 +37,6 @@
         dy (- (source-planet-id :y) (dest-planet-id :y))]
     (int (ceil (sqrt (+ (sq dx)
                         (sq dy)))))))
-
-;; Game
-(defstruct #^{:doc "This is the overall state of the game."}
-  planet-wars-game :planets :fleets)
 
 (defn fleets
   "Returns a seq of all the fleet in 'game'"
