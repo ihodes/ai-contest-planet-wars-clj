@@ -19,7 +19,7 @@ bot times out, there's a chance you'll need to increase the time.
 
 Hopefully there will be an update to the game engine that doesn't penalize slow start-up times (e.g. both bots send "OKAY" when they're all ready, *then* recieve the map/game-state from the game engine.)
 
-The contest is hosted at [ai-content.com](ai-contest.com)
+The contest is hosted at [ai-content.com](http://ai-contest.com)
 
 * * *
 
