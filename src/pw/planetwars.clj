@@ -156,17 +156,15 @@
 (defn parse-game-state
   "Returns a new planet-wars-game struct from 's"
   [s]
-  (let [lines (map clean (split-lines s))]
-    (loop [planets [] fleets [] pid 0 lines lines]
-           (cond (empty? lines) (struct planet-wars-game planets fleets)
-                 (p-line? (first lines)) (recur
-                                          (cons (s-to-planet (first lines) pid) planets)
-                                          fleets
-                                          (inc pid)
-                                          (rest lines))
-                                               
-                 (f-line? (first lines)) (recur
-                                          planets
-                                          (cons (s-to-fleet (first lines)) fleets)
-                                          pid
-                                          (rest lines))))))
+  (loop [planets [] fleets [] pid 0 lines (map clean (split-lines s))]
+    (cond (empty? lines) (struct planet-wars-game planets fleets)
+          (p-line? (first lines)) (recur
+                                   (cons (s-to-planet (first lines) pid) planets)
+                                   fleets
+                                   (inc pid)
+                                   (rest lines))
+          (f-line? (first lines)) (recur
+                                   planets
+                                   (cons (s-to-fleet (first lines)) fleets)
+                                   pid
+                                   (rest lines)))))
