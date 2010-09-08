@@ -1,6 +1,5 @@
 (ns pw.bot
-  (:use [clojure.string :only (trim split-lines)]
-        pw.planetwars)
+  (:use pw.planetwars)
   (:gen-class :main true :prefix "-"))
 
 ;; Helpers for your bot
@@ -37,24 +36,20 @@
              (issue-order source dest
                           (ihalf ((get-planet game source) :num-ships)))))))
 
-;; Utility functions
-(defn- go? [s] (= (apply str (take 2 s)) "go"))
-
 ;; Main IO loop
 (defn -main [& args]
   (try
-    (loop [pw ""]
-      (if-let [line (read-line)]
-        (cond (go? line) (if-not (empty? pw)
-                           (do (do-turn (parse-game-state pw))
+        (loop [message []]
+            (let [line (read-line)]
+                (cond
+                    (nil? line) nil
+                    (= line "go")
+                        (do
+                            (do-turn (parse-game-state message))
                                (finish-turn)
-                               (recur ""))
-                           (do (finish-turn)
-                               (recur "")))
-              :else (recur (apply str (concat pw line "\n"))))))
+                            (recur []))
+                    :else (recur (conj message line)))))
     (catch Exception e
-      (do
-        (println "There has been an error.")
-        (java.lang.System/exit 1))))
+            (java.lang.System/exit 1)))
   (java.lang.System/exit 0))
 
