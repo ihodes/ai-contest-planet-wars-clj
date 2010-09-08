@@ -3,3 +3,6 @@ pom.xml
 *jar
 lib
 classes
+log.txt
+#*
+*#
