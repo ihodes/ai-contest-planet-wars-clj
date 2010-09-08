@@ -53,7 +53,10 @@
                :else (recur (read-line)
                             (apply str (concat pw line "\n")))))
        (catch Exception e
-         (println "Egregious error, man. Egreege."))))
+         (do
+           (println "Egregious error, yo.")
+           (java.lang.System/exit 1))))
+  (java.lang.System/exit 0))
 
 ;; Run the program
 ;; (try (-main)
