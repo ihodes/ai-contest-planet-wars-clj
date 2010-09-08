@@ -67,7 +67,7 @@
 (defn get-fleet ;; fleets don't have ids...
   "Returns the fleet with given id."
   [game fleet-id]
-  (nth (game :fleets) fleet-id))
+  (get (game :fleets) fleet-id))
 
 (defn- my? [x] (== 1 (x :owner)))
 (defn- neut? [x] (== 0 (x :owner)))
@@ -134,21 +134,22 @@
   []
   (prn 'go))
 
+(defn- to_i [x] (Integer. x))
+(defn- to_d [x] (Double. x))
+
 (defn s-to-planet
   "Returns a planet struct with planet-id 'id from 's."
   [s id]
-  (let [st (vec (drop 1 (split s #" ")))
-        d #(Double. %)
-        i #(Integer. %)]
-    (struct planet id (d (st 0)) (d (st 1)) (i (st 2)) (i (st 3)) (i (st 4)))))
+  (let [st (vec (drop 1 (split s #" ")))]
+    (struct planet id (to_d (st 0)) (to_d (st 1)) (to_i (st 2)) (to_i (st 3)) (to_i (st 4)))))
 
 (defn s-to-fleet
   "Returns a fleet struct from 's."
   [s]
   (apply struct fleet
-         (map #(Integer. %) (drop 1 (split s #" ")))))
+         (map to_i (drop 1 (split s #" ")))))
 
-(defn- clean [s] (trim (nth (split s #"#") 0)))
+(defn- clean [s] (trim (get (split s #"#") 0)))
 (defn- p-line? [s] (= \P (first s)))
 (defn- f-line? [s] (= \F (first s)))
 

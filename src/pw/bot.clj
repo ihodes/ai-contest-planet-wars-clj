@@ -4,62 +4,57 @@
   (:gen-class :main true :prefix "-"))
 
 ;; Helpers for your bot
-(defn my-strongest-planet
+(defn my-strongest-planets
   [pw]
-  (let [p (first (sort-by :num-ships > (my-planets pw)))]
-    (if-not (nil? p)
-      (p :planet-id))))
+  (sort-by :num-ships > (my-planets pw)))
 
-(defn weakest-enemy-planet
+(defn enemys-weakest-planets
   [pw]
-  (let [p (first (sort-by :num-ships (enemy-planets pw)))]
-    (if-not (nil? p)
-      (p :planet-id))))
+  (sort-by :num-ships (enemy-planets pw)))
+
+(defn my-strongest-planet-id
+  [pw]
+  (when-first [p (my-strongest-planets pw)]
+              (p :planet-id)))
+
+(defn weakest-enemy-planet-id
+  [pw]
+  (when-first [p (enemys-weakest-planets pw)]
+              (p :planet-id)))
 
 (defn ihalf [x] (int (/ x 2)))
 
 ;; Your Robot
-(defn do-turn [pw]
+(defn do-turn [game]
   (cond
    ;; Do nothing if a fleet is in flight
-   (pos? (count (my-fleets pw))) nil
+   (pos? (count (my-fleets game))) nil
    ;; Else send half your ships from your strongest planets
    ;; to your enemy's weakest planet
-   :else (let [source (my-strongest-planet pw) 
-               dest (weakest-enemy-planet pw)]
-           (if (or (nil? source) (nil? dest))
-             nil
+   :else (let [source (my-strongest-planet-id game) 
+               dest (weakest-enemy-planet-id game)]
+           (when-not (or (nil? source) (nil? dest))
              (issue-order source dest
-                          (ihalf ((get-planet pw source) :num-ships)))))))
-
+                          (ihalf ((get-planet game source) :num-ships)))))))
 
 ;; Utility functions
 (defn- go? [s] (= (apply str (take 2 s)) "go"))
-(defn- take-turn
-  [f pw]
-  (f (parse-game-state pw)) ;; run your bot (f) on parsed pw
-  (finish-turn)) ;; say go
 
 ;; Main IO loop
 (defn -main [& args]
-  (try (loop [line (read-line) pw ""]
-         (cond (go? line) (if-not (empty? pw)
-                            (do
-                              (take-turn do-turn pw)
-                              (recur (read-line) ""))
-                            (do
-                              (finish-turn)
-                              (recur (read-line) "")))
-               :else (recur (read-line)
-                            (apply str (concat pw line "\n")))))
-       (catch Exception e
-         (do
-           (println "Egregious error, yo.")
-           (java.lang.System/exit 1))))
+  (try
+    (loop [pw ""]
+      (if-let [line (read-line)]
+        (cond (go? line) (if-not (empty? pw)
+                           (do (do-turn (parse-game-state pw))
+                               (finish-turn)
+                               (recur ""))
+                           (do (finish-turn)
+                               (recur "")))
+              :else (recur (apply str (concat pw line "\n"))))))
+    (catch Exception e
+      (do
+        (println "There has been an error.")
+        (java.lang.System/exit 1))))
   (java.lang.System/exit 0))
-
-;; Run the program
-;; (try (-main)
-;;      (catch Exception e
-;;        (println "And we're done.")))
 
