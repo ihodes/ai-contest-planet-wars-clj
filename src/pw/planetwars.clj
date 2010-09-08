@@ -115,13 +115,13 @@
   "Prints the state of the game as a string."
   [game]
   (let [pstr (for [p (planets game)]
-               (str "P" (p :x) (p :y) (p :owner)
-                    (p :num-ships) (p :growth-rate)))
+               (join \space (list "P" (p :planet-id) (p :x) (p :y) (p :owner)
+                    (p :num-ships) (p :growth-rate))))
         fstr (for [f (fleets game)]
-               (str "F" (f :owner) (f :num-ships) (f :source-planet)
+               (join \space (list "F" (f :owner) (f :num-ships) (f :source-planet)
                     (f :destination-planet) (f :total-trip-length)
-                    (f :turns-remaining)))]
-    (str (join \newline (concat pstr fstr))) \newline))
+                    (f :turns-remaining))))]
+        (str (join \newline (concat pstr fstr)) \newline)))
 
 (defn issue-order
   "Issues an order, sending 'num-ships from source-planet to
