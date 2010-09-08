@@ -11,7 +11,7 @@
   ]
   :resources-path "conf"
   :uberjar-name "cljbot.jar"
-  :aot [pw.my_bot pw.planetwars]
-  :main pw.bot
+  :aot [my_bot planetwars]
+  :main my_bot
   :disable-implicit-clean true
 )

@@ -1,5 +1,5 @@
-(ns pw.bot
-  (:use pw.planetwars)
+(ns my_bot
+  (:use planetwars)
   (:import (org.slf4j Logger LoggerFactory))
   (:gen-class :main true :prefix "-"))
 
