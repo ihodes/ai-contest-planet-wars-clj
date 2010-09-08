@@ -136,35 +136,33 @@
 
 (defn- to_i [x] (Integer. x))
 (defn- to_d [x] (Double. x))
+(defn place-on [fns args] (map apply fns (map list args)))
 
 (defn s-to-planet
   "Returns a planet struct with planet-id 'id from 's."
-  [s id]
-  (let [st (vec (drop 1 (split s #" ")))]
-    (struct planet id (to_d (st 0)) (to_d (st 1)) (to_i (st 2)) (to_i (st 3)) (to_i (st 4)))))
+  [tks id]
+  (apply struct planet id
+         (place-on [to_d to_d to_i to_i to_i] tks)))
 
 (defn s-to-fleet
-  "Returns a fleet struct from 's."
-  [s]
+  "Returns a fleet struct from an array of tokens, 'tks."
+  [tks]
   (apply struct fleet
-         (map to_i (drop 1 (split s #" ")))))
+         (map to_i tks)))
 
-(defn- clean [s] (trim (get (split s #"#") 0)))
-(defn- p-line? [s] (= \P (first s)))
-(defn- f-line? [s] (= \F (first s)))
+(defn- clean [s] (when-first [s (split s #"#")] (trim s)))
 
 (defn parse-game-state
   "Returns a new planet-wars-game struct from 's"
   [s]
   (loop [planets [] fleets [] pid 0 lines (map clean (split-lines s))]
-    (cond (empty? lines) (struct planet-wars-game planets fleets)
-          (p-line? (first lines)) (recur
-                                   (cons (s-to-planet (first lines) pid) planets)
-                                   fleets
-                                   (inc pid)
-                                   (rest lines))
-          (f-line? (first lines)) (recur
-                                   planets
-                                   (cons (s-to-fleet (first lines)) fleets)
-                                   pid
-                                   (rest lines)))))
+    (if-let [[t & tks] (try (split (clean (first lines)) #" ")
+                            (catch Exception e nil))]
+      (cond 
+       (= "P" t) (recur (cons (s-to-planet tks pid) planets) fleets
+                            (inc pid)
+                            (rest lines))
+                     
+       (= "F" t) (recur planets (cons (s-to-fleet tks) fleets) pid
+                            (rest lines)))
+      (struct planet-wars-game planets fleets))))
