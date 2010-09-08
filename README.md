@@ -2,6 +2,7 @@
 
 To work with the default bot.clj, ensure you have [leiningen](github.com/technomancy/leiningen) up and working and do the following:
 
+    $ lein deps
     $ lein uberjar
     > ... 
     > cljbot.jar 
