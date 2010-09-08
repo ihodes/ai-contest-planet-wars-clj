@@ -1,4 +1,4 @@
-\## How to use this bot:
+## How to use this bot:
 
 To work with the default bot.clj, ensure you have [leiningen](github.com/technomancy/leiningen) up and working and do the following:
 
