@@ -3,6 +3,7 @@ pom.xml
 *jar
 lib
 classes
+.*.swp
 log.txt
 #*
 *#
