@@ -1,4 +1,4 @@
-(defproject clj-pwars "1.0.0-SNAPSHOT"
+(defproject MyBot "1.0"
   :description "Clojure starter package for planet-wars Google ai contest."
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
@@ -10,7 +10,7 @@
                  [org.slf4j/slf4j-log4j12 "1.6.1"]
   ]
   :resources-path "conf"
-  :uberjar-name "cljbot.jar"
+  :uberjar-name "MyBot.jar"
   :aot [my_bot planetwars]
   :main my_bot
   :disable-implicit-clean true

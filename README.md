@@ -10,8 +10,8 @@ Unix:
 Windows:
     $ .\bin\lein.bat uberjar
 
-The output is a single file called cljbot.jar which should run with "java -jar cljbot.jar". As clojure code starts up slower then needed you must adjust max_turn_time through the command line as a workaround. Please note, this is a benifit for this setup as max_turn_time is valid for each turn, this must be fixed by the judges somehow.
-    $ java -jar tools/PlayGame.jar maps/map7.txt 3000 1000 log.txt "java -jar example_bots/RandomBot.jar" "java -jar cljbot.jar" | java -jar tools/ShowGame.jar
+The output is a single file called MyBot.jar which should run with "java -jar MyBot.jar". As clojure code starts up slower then needed you must adjust max_turn_time through the command line as a workaround. Please note, this is a benifit for this setup as max_turn_time is valid for each turn, this must be fixed by the judges somehow.
+    $ java -jar tools/PlayGame.jar maps/map7.txt 3000 1000 log.txt "java -jar example_bots/RandomBot.jar" "java -jar MyBot.jar" | java -jar tools/ShowGame.jar
 
 ## Notes
 
