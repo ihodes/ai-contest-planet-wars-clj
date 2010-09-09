@@ -140,22 +140,22 @@
 (defn- to_d [x] (Double. x))
 
 (defn- s-to-planet
-  "Returns a planet struct with planet-id 'id from 's."
-  [s id]
+    "Returns a planet struct with planet-id 'id from 's."
+    [s id]
     (apply struct planet id
         (map #(apply (first %) (rest %))
              (map vector [to_d to_d to_i to_i to_i] s))))
 
 (defn- s-to-fleet
-  "Returns a fleet struct from 's."
-  [s]
-  (apply struct fleet
-         (map to_i s)))
+    "Returns a fleet struct from 's."
+    [s]
+    (apply struct fleet
+        (map to_i s)))
 
 (defn- remove-comments [s] (when-first [x (split s #"#")] (trim x)))
 
 (defn parse-game-state
-  "Returns a new planet-wars-game struct from 's"
+    "Returns a new planet-wars-game struct from 's"
     [lines]
         (dissoc
             (reduce
