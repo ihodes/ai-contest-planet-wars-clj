@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Based on http://ai-contest.com/forum/viewtopic.php?p=2395#p2395
 
 RUN_JAR='java -jar'
