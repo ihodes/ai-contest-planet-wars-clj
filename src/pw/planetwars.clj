@@ -166,3 +166,26 @@
        (= "F" t) (recur planets (cons (s-to-fleet tks) fleets) pid
                             (rest lines)))
       (struct planet-wars-game planets fleets))))
+
+
+;; Utility functions
+(defn- go? [s] (= (apply str (take 2 s)) "go"))
+
+;; Main IO loop
+(defn run-bot [do-turn]
+  (try
+    (loop [pw ""]
+      (if-let [line (read-line)]
+        (cond (go? line) (if-not (empty? pw)
+                           (do (do-turn (parse-game-state pw))
+                               (finish-turn)
+                               (recur ""))
+                           (do (finish-turn)
+                               (recur "")))
+              :else (recur (apply str (concat pw line "\n"))))))
+    (catch Exception e
+      (do
+        (println "There has been an error.")
+        (java.lang.System/exit 1))))
+  (java.lang.System/exit 0))
+
