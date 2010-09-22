@@ -5,9 +5,9 @@ To work with the default bot.clj, ensure you have [leiningen](github.com/technom
     $ lein deps
     $ lein uberjar
     > ... 
-    > cljbot.jar 
+    > MyBot.jar 
     
-    $ java -jar tools/PlayGame.jar maps/map7.txt 3000 1000 log.txt "java -jar example_bots/RandomBot.jar" "java -jar cljbot.jar" | java -jar tools/ShowGame.jar
+    $ java -jar tools/PlayGame.jar maps/map7.txt 3000 1000 log.txt "java -jar example_bots/RandomBot.jar" "java -jar MyBot.jar" | java -jar tools/ShowGame.jar
 
 And you should be good to go.
 
